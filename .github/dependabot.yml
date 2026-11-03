@@ -1,0 +1,19 @@
+version: 2
+updates:
+  # Each project is a separate Cargo package with its own Cargo.lock
+  - package-ecosystem: "cargo"
+    directories:
+      - "/Calcualtor"
+      - "/guessing_game"
+      - "/snake_game"
+    schedule:
+      interval: "weekly"
+    groups:
+      cargo-minor-and-patch:
+        update-types: [ "minor", "patch" ]
+
+  # Keeps the pinned action SHAs in .github/workflows up to date
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

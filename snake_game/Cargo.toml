@@ -2,8 +2,9 @@
 name = "snake_game"
 version = "0.1.0"
 edition = "2024"
+license = "MIT"
 
 [dependencies]
-rand = "*"
-piston_window = "*"
+rand = "0.10"
+piston_window = "0.148"
 
