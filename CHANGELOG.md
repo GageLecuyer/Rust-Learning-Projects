@@ -14,6 +14,7 @@ Notable changes to this repository are listed here. The format is based on [Keep
   - unit tests for snake logic in `snake_game/src/snake.rs`
 - GitHub Actions CI that runs `cargo fmt --check`, `cargo clippy -D warnings`, and `cargo test` for every project, plus a `cargo audit` dependency vulnerability scan.
 - Dependabot configuration for Cargo dependencies and GitHub Actions.
+- Pull request template (`.github/pull_request_template.md`) and a documented code review process in `CONTRIBUTING.md`.
 
 ### Fixed
 
