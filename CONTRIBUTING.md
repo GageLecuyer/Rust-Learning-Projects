@@ -2,6 +2,17 @@
 
 Thanks for your interest. This is a personal learning repository, but bug reports, suggestions, and pull requests are welcome.
 
+## Requirements for acceptable contributions
+
+A pull request is accepted only if it meets all of the following. Each item is explained in more detail below.
+
+1. **Coding standard:** the code follows the [Rust Style Guide](https://doc.rust-lang.org/style-guide/) as enforced by `rustfmt`, and the [Rust API naming guidelines](https://rust-lang.github.io/api-guidelines/naming.html). `cargo fmt --check` must pass.
+2. **No lint warnings:** `cargo clippy --all-targets --locked -- -D warnings` must pass.
+3. **Tests:** new functionality includes automated tests, bug fixes include a test that would have caught the bug, and `cargo test --locked` must pass.
+4. **Documentation:** a change to a program's inputs, outputs, controls, or behavior updates that project's `README.md`. User-visible changes get a line in `CHANGELOG.md`.
+5. **CI passes:** all GitHub Actions checks on the pull request are green.
+6. **Scope and license:** the pull request is focused on one change and is submitted under the MIT License (see [License of contributions](#license-of-contributions)).
+
 ## Reporting problems
 
 - **Bugs and enhancement requests:** open an issue at <https://github.com/GageLecuyer/Rust-Learning-Projects/issues>. Include:

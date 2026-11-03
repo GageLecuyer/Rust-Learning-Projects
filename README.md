@@ -104,10 +104,14 @@ cargo test --locked
 - **Security vulnerabilities:** do **not** open a public issue. Follow [SECURITY.md](SECURITY.md) instead.
 - **Contributing code:** see [CONTRIBUTING.md](CONTRIBUTING.md).
 
+## Contributing
+
+Contributions are welcome. [CONTRIBUTING.md](CONTRIBUTING.md) explains how to submit a pull request and lists the [requirements for acceptable contributions](CONTRIBUTING.md#requirements-for-acceptable-contributions): coding standard, `cargo fmt`, `cargo clippy`, tests, and documentation.
+
 ## Changes
 
 See [CHANGELOG.md](CHANGELOG.md) for notable changes.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE) (SPDX: `MIT`). The full license text is in the [`LICENSE`](LICENSE) file at the repository root.

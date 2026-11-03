@@ -20,7 +20,7 @@ This file maps each Passing criterion to evidence in this repository. Status val
 | description_good | MUST | Met | `R/blob/Main/README.md`: first section describes what the repository is and what each program does. |
 | interact | MUST | Met | `R/blob/Main/README.md#reporting-bugs-and-requesting-enhancements` covers how to get it, give feedback, and contribute. |
 | contribution | MUST | Met | `R/blob/Main/CONTRIBUTING.md` |
-| contribution_requirements | SHOULD | Met | `R/blob/Main/CONTRIBUTING.md#rust-coding-conventions`: rustfmt, clippy, naming, test policy. |
+| contribution_requirements | SHOULD | Met | `R/blob/Main/CONTRIBUTING.md#requirements-for-acceptable-contributions`: Rust Style Guide via rustfmt, clippy with no warnings, required tests, documentation updates, passing CI. |
 | floss_license | MUST | Met | MIT. `R/blob/Main/LICENSE` |
 | floss_license_osi | SUGGESTED | Met | MIT is OSI-approved: <https://opensource.org/license/mit> |
 | license_location | MUST | Met | `R/blob/Main/LICENSE` (standard location, top level) |
