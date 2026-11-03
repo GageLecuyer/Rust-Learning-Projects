@@ -1,10 +1,10 @@
-mod snake;
 mod draw;
+mod snake;
 
-use piston_window::*;
-use piston_window::graphics::clear;
-use snake::{Snake, Direction};
 use draw::draw_block;
+use piston_window::graphics::clear;
+use piston_window::*;
+use snake::{Direction, Snake};
 
 const WIDTH: i32 = 20;
 const HEIGHT: i32 = 20;
@@ -13,12 +13,10 @@ const FOOD_COLOR: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
 
 // Create food at a random empty position
 fn random_food(snake: &Snake) -> Option<(i32, i32)> {
-
     let mut empty_positions = Vec::new();
 
     for y in 0..HEIGHT {
         for x in 0..WIDTH {
-
             if !snake.contains(x, y) {
                 empty_positions.push((x, y));
             }
@@ -35,13 +33,11 @@ fn random_food(snake: &Snake) -> Option<(i32, i32)> {
 }
 
 fn main() {
-
     // Create game window
-    let mut window: PistonWindow =
-        WindowSettings::new("Snake Game", [500, 500])
-            .exit_on_esc(true)
-            .build()
-            .unwrap();
+    let mut window: PistonWindow = WindowSettings::new("Snake Game", [500, 500])
+        .exit_on_esc(true)
+        .build()
+        .unwrap();
 
     // Snake moves 8 times per second
     window.set_ups(8);
@@ -57,12 +53,9 @@ fn main() {
 
     // Main game loop
     while let Some(event) = window.next() {
-
         // Keyboard controls
         if let Some(Button::Keyboard(key)) = event.press_args() {
-
             match key {
-
                 Key::Up | Key::W => {
                     snake.change_direction(Direction::Up);
                 }
@@ -93,47 +86,36 @@ fn main() {
         }
 
         // Update game
-        if event.update_args().is_some() && !game_over {
+        if event.update_args().is_some()
+            && !game_over
+            && let Some(food_position) = food
+        {
+            let old_length = snake.len();
 
-            if let Some(food_position) = food {
+            // Move snake
+            if !snake.update(WIDTH, HEIGHT, food_position) {
+                game_over = true;
 
-                let old_length = snake.len();
+                window.set_title(format!("Game Over! Score: {} | Press R to Restart", score));
+            } else if snake.len() > old_length {
+                // Snake ate food
+                score += 1;
 
-                // Move snake
-                if !snake.update(WIDTH, HEIGHT, food_position) {
+                println!("Score: {}", score);
 
+                food = random_food(&snake);
+
+                if food.is_none() {
                     game_over = true;
-
-                    window.set_title(
-                        format!("Game Over! Score: {} | Press R to Restart", score)
-                    );
-
-                } else if snake.len() > old_length {
-
-                    // Snake ate food
-                    score += 1;
-
-                    println!("Score: {}", score);
-
-                    food = random_food(&snake);
-
-                    if food.is_none() {
-                        game_over = true;
-                        window.set_title(
-                            format!("You Win! Score: {} | Press R to Restart", score)
-                        );
-                    } else {
-                        window.set_title(
-                            format!("Snake Game | Score: {}", score)
-                        );
-                    }
+                    window.set_title(format!("You Win! Score: {} | Press R to Restart", score));
+                } else {
+                    window.set_title(format!("Snake Game | Score: {}", score));
                 }
             }
         }
 
         // Draw game
         window.draw_2d(&event, |con, g, _| {
-
             // Background
             if game_over {
                 clear([0.25, 0.05, 0.05, 1.0], g);

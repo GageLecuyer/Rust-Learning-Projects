@@ -1,14 +1,8 @@
-use piston_window::graphics::{rectangle, Context, Graphics};
+use piston_window::graphics::{Context, Graphics, rectangle};
 
 const BLOCK_SIZE: f64 = 25.0;
 
-pub fn draw_block<G: Graphics>(
-    color: [f32; 4],
-    x: i32,
-    y: i32,
-    con: &Context,
-    g: &mut G,
-) {
+pub fn draw_block<G: Graphics>(color: [f32; 4], x: i32, y: i32, con: &Context, g: &mut G) {
     rectangle(
         color,
         [

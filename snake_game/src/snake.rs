@@ -1,5 +1,5 @@
-use piston_window::graphics::{Context, Graphics};
 use crate::draw::draw_block;
+use piston_window::graphics::{Context, Graphics};
 
 const SNAKE_COLOR: [f32; 4] = [0.0, 0.8, 0.0, 1.0];
 
@@ -27,15 +27,10 @@ pub struct Snake {
 }
 
 impl Snake {
-
     // Creates a new snake
     pub fn new(x: i32, y: i32) -> Snake {
         Snake {
-            body: vec![
-                Block { x, y },
-                Block { x: x - 1, y },
-                Block { x: x - 2, y },
-            ],
+            body: vec![Block { x, y }, Block { x: x - 1, y }, Block { x: x - 2, y }],
             direction: Direction::Right,
             next_direction: Direction::Right,
         }
@@ -49,7 +44,6 @@ impl Snake {
     }
     // Changes the snake's direction
     pub fn change_direction(&mut self, new_direction: Direction) {
-
         // Prevent turning directly backwards
         let opposite = matches!(
             (self.direction, new_direction),
@@ -66,13 +60,7 @@ impl Snake {
 
     // Moves the snake forward
     // Returns false if the snake crashes
-    pub fn update(
-        &mut self,
-        width: i32,
-        height: i32,
-        food: (i32, i32),
-    ) -> bool {
-
+    pub fn update(&mut self, width: i32, height: i32, food: (i32, i32)) -> bool {
         let head = self.body[0];
 
         let mut new_head = head;
@@ -85,11 +73,7 @@ impl Snake {
         }
 
         // Check wall collisions
-        if new_head.x < 0
-            || new_head.x >= width
-            || new_head.y < 0
-            || new_head.y >= height
-        {
+        if new_head.x < 0 || new_head.x >= width || new_head.y < 0 || new_head.y >= height {
             return false;
         }
 
@@ -137,5 +121,76 @@ impl Snake {
     // Get the snake's length
     pub fn len(&self) -> usize {
         self.body.len()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // Food placed somewhere the snake will not reach during a test
+    const FAR_FOOD: (i32, i32) = (19, 19);
+
+    #[test]
+    fn new_snake_has_three_blocks() {
+        let snake = Snake::new(5, 10);
+        assert_eq!(snake.len(), 3);
+        assert!(snake.contains(5, 10));
+        assert!(snake.contains(4, 10));
+        assert!(snake.contains(3, 10));
+        assert!(!snake.contains(6, 10));
+    }
+
+    #[test]
+    fn moves_right_by_default() {
+        let mut snake = Snake::new(5, 10);
+        assert!(snake.update(20, 20, FAR_FOOD));
+        assert!(snake.contains(6, 10));
+        assert!(!snake.contains(3, 10));
+        assert_eq!(snake.len(), 3);
+    }
+
+    #[test]
+    fn grows_when_eating_food() {
+        let mut snake = Snake::new(5, 10);
+        assert!(snake.update(20, 20, (6, 10)));
+        assert_eq!(snake.len(), 4);
+        assert!(snake.contains(3, 10));
+    }
+
+    #[test]
+    fn crashes_into_wall() {
+        let mut snake = Snake::new(19, 10);
+        assert!(!snake.update(20, 20, FAR_FOOD));
+    }
+
+    #[test]
+    fn cannot_reverse_direction() {
+        let mut snake = Snake::new(5, 10);
+        snake.change_direction(Direction::Left);
+        assert!(snake.update(20, 20, FAR_FOOD));
+        assert!(snake.contains(6, 10));
+    }
+
+    #[test]
+    fn turns_up() {
+        let mut snake = Snake::new(5, 10);
+        snake.change_direction(Direction::Up);
+        assert!(snake.update(20, 20, FAR_FOOD));
+        assert!(snake.contains(5, 9));
+    }
+
+    #[test]
+    fn crashes_into_itself() {
+        // Grow to length 5, then turn in a tight loop back into the body
+        let mut snake = Snake::new(5, 10);
+        assert!(snake.update(20, 20, (6, 10)));
+        assert!(snake.update(20, 20, (7, 10)));
+        snake.change_direction(Direction::Down);
+        assert!(snake.update(20, 20, FAR_FOOD));
+        snake.change_direction(Direction::Left);
+        assert!(snake.update(20, 20, FAR_FOOD));
+        snake.change_direction(Direction::Up);
+        assert!(!snake.update(20, 20, FAR_FOOD));
     }
 }
